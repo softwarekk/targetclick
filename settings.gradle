@@ -1,0 +1,2 @@
+include ':targetclick'
+rootProject.name = "TargetClick"

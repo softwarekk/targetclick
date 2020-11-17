@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+    id'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id'com.github.dcendents.android-maven' //添加列
+}
+group='com.github.softwarekk' //添加列
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    // 构建 -------》 【编译时期.....】 ------》打包 ----》安装
+    compileOnly 'com.google.auto.service:auto-service:1.0-rc7'
+    kapt'com.google.auto.service:auto-service:1.0-rc7'
+    api "com.squareup:kotlinpoet:1.6.0"
+}
+// java控制台输出中文乱码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
