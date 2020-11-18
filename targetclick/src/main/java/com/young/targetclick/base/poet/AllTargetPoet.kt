@@ -38,7 +38,6 @@ open class AllTargetPoet : OriginalClickPoet {
         funSpec?.addStatement("val currentMil=System.currentTimeMillis()")
                ?.addStatement("     if(clickMil!=0L&&(currentMil-clickMil!!)<1500){" +
                        "\n" +
-                    "      clickMil=currentMil\n" +
                     "      return\n" +
                     " }else{\n" +
                     "     clickMil=currentMil\n" +
