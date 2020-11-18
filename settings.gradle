@@ -1,2 +1,4 @@
+include ':app'
 include ':targetclick'
+
 rootProject.name = "TargetClick"
