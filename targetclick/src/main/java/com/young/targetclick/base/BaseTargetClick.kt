@@ -1,4 +1,4 @@
-package com.young.targetclick
+package com.young.targetclick.base
 
 
 /*
@@ -6,7 +6,7 @@ package com.young.targetclick
  * Author Young
  * Date 
  */
-open class BaseBindingClick {
+open class BaseTargetClick {
     protected open fun toTarget(view: Any, index: Int?, data: Any?){
     }
 }

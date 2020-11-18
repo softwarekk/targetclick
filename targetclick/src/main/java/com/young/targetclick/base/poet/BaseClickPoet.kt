@@ -1,4 +1,4 @@
-package com.young.targetclick
+package com.young.targetclick.base.poet
 
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -45,9 +45,8 @@ import kotlin.reflect.KClass
          }
     * */
     abstract fun addTargetFun(funSpec: FunSpec.Builder?)
-    //
-    abstract fun addPropertySpec(funSpec: PropertySpec.Builder?)
-
+    //声明的属性
+    abstract fun addPropertySpec(proSpecs: ArrayList<PropertySpec>)
 
     /*
     * 输出构建的文件

@@ -1,11 +1,11 @@
-package com.young.targetclick
+package com.young.targetclick.base
 
 /*
  * Des  
  * Author Young
  * Date 
  */
-open class BaseXmlDataBindingClick : BaseXmlBindingClick() {
+open class BaseXmlDataBindingClick : BaseXmlTargetClick() {
     fun viewClick(view: Any, index: Int?, data: Any?) {
         super.viewClick(view)
     }

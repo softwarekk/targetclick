@@ -1,10 +1,10 @@
-package com.young.targetclick
+package com.young.targetclick.base
 
 
 /*
  * Des  
  * Author Young
  * Date 
- */interface BindingClickImplCallback {
+ */interface TargetClickImplCallback {
     fun viewOnclick(view:Any,index:Int?,data:Any?)
 }

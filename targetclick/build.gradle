@@ -3,7 +3,6 @@ plugins {
     id 'kotlin'
     id'kotlin-android-extensions'
     id 'kotlin-kapt'
-    id'com.github.dcendents.android-maven' //添加列
 }
 group='com.github.softwarekk' //添加列
 

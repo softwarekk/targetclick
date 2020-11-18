@@ -1,6 +1,8 @@
-package com.young.targetclick
+package com.young.targetclick.base.poet
 
 import com.squareup.kotlinpoet.*
+import com.young.targetclick.base.BaseXmlTargetClick
+import com.young.targetclick.base.TargetClickImplCallback
 import kotlin.reflect.KClass
 
 /*
@@ -13,11 +15,10 @@ open class OriginalClickPoet: BaseClickPoet {
         initOriginal()
     }
     private fun initOriginal() {
-        superclass= BaseXmlBindingClick::class
-        implCallback= PropertySpec.builder("implCallback", BindingClickImplCallback::class)
+        superclass= BaseXmlTargetClick::class
+        implCallback= PropertySpec.builder("implCallback", TargetClickImplCallback::class)
             .addModifiers(KModifier.PRIVATE)
             .initializer("callBack")
-        propertySpecs.add(implCallback?.build()!!)
         toTargetFun=FunSpec.builder("toTarget")
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("view",Any::class)
@@ -48,6 +49,28 @@ open class OriginalClickPoet: BaseClickPoet {
     private var implCallback:PropertySpec.Builder ?=null
     private var propertySpec:PropertySpec.Builder ?=null
     private var propertySpecs:ArrayList<PropertySpec> = arrayListOf()
+    private var viewSpecs:ArrayList<ParameterSpec> = arrayListOf()
+    private var adapterSpecs:ArrayList<ParameterSpec> = arrayListOf()
+
+    private fun createParameterSpec(){
+        viewSpecs.clear()
+        adapterSpecs.clear()
+        val oneParam=ParameterSpec.builder("view",Any::class).build()
+        val twoParam=ParameterSpec.builder("index",Int::class).build()
+        val threeParam=ParameterSpec.builder("data",Any::class).build()
+        if(superclass==BaseXmlTargetClick::class){
+            viewSpecs.add( oneParam )
+            adapterSpecs.add( oneParam )
+            adapterSpecs.add( twoParam  )
+        }else if(superclass==BaseXmlTargetClick::class){
+            viewSpecs.add( oneParam )
+            viewSpecs.add( twoParam )
+            viewSpecs.add( threeParam )
+            adapterSpecs.add( oneParam )
+            adapterSpecs.add( twoParam  )
+            adapterSpecs.add( threeParam  )
+        }
+    }
 
     override fun addFile(fileSpec: FileSpec) {
 
@@ -59,8 +82,9 @@ open class OriginalClickPoet: BaseClickPoet {
 
     override fun addViewClickFun(funSpec: FunSpec.Builder?) {
         viewClickFun =  funSpec
-            ?.addStatement(if(superclass?.isInstance(BaseXmlBindingClick::class)!! ) "super.viewClick(view)" else "super.viewClick(view,index,data)")
-            ?.addStatement(if(superclass?.isInstance(BaseXmlBindingClick::class)!! ) "%N(view,null,null)" else "%N(view,index,data)",toTargetFun!!)
+            ?.addParameters(viewSpecs)
+            ?.addStatement(if(superclass== BaseXmlTargetClick::class ) "super.viewClick(view)" else "super.viewClick(view,index,data)")
+            ?.addStatement(if(superclass== BaseXmlTargetClick::class) "%N(view,null,null)" else "%N(view,index,data)",toTargetFun!!)
             ?.addModifiers(KModifier.OVERRIDE)
             ?.addParameter("view",Any::class)
             ?.build()
@@ -68,8 +92,9 @@ open class OriginalClickPoet: BaseClickPoet {
 
     override fun addAdapterClickFun(funSpec: FunSpec.Builder?) {
         adapterClickFun= funSpec
-            ?.addStatement(if(superclass?.isInstance(BaseXmlBindingClick::class)!! ) "super.adapterClick(view, index)" else "super.viewClick(view,index,data)")
-            ?.addStatement(if(superclass?.isInstance(BaseXmlBindingClick::class)!! ) "%N(view,null,null)" else "%N(view,index,data)",toTargetFun!!)
+            ?.addParameters(adapterSpecs)
+            ?.addStatement(if(superclass== BaseXmlTargetClick::class) "super.adapterClick(view, index)" else "super.viewClick(view,index,data)")
+            ?.addStatement(if(superclass== BaseXmlTargetClick::class ) "%N(view,index,null)" else "%N(view,index,data)",toTargetFun!!)
             ?.addModifiers(KModifier.OVERRIDE)
             ?.addParameter("view",Any::class)
             ?.addParameter("index",Int::class.asTypeName().copy(true))
@@ -87,19 +112,24 @@ open class OriginalClickPoet: BaseClickPoet {
             ?.build()
     }
 
-    override fun addPropertySpec(funSpec: PropertySpec.Builder?) {
-        propertySpecs.add(funSpec?.build()!!)
+    override fun addPropertySpec( proSpecs: ArrayList<PropertySpec>) {
+        proSpecs.add(implCallback?.build()!!)
+        propertySpecs=proSpecs
     }
 
     override fun outPut(className: String): TypeSpec {
-        return TypeSpec.classBuilder(className + "BindingClickImpl") //class 构造器
+        addPropertySpec(propertySpecs)
+        addTargetFun(FunSpec.builder("toTarget"))
+        addViewClickFun(FunSpec.builder("viewClick"))
+        addAdapterClickFun(FunSpec.builder("adapterClick"))
+        return TypeSpec.classBuilder(className + "TargetClickImpl") //class 构造器
                 .superclass(superclass!!)
                 .primaryConstructor(
                     FunSpec.constructorBuilder()
-                        .addParameter("callBack", BindingClickImplCallback::class)
+                        .addParameter("callBack", TargetClickImplCallback::class)
                         .build()
                 )
-                .addProperties(propertySpecs.asIterable()!!)
+                .addProperties(propertySpecs)
                 .addFunctions(
                     listOf(viewClickFun!!,adapterClickFun!!,toTargetFun!!)
                 ).build()
