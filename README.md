@@ -10,15 +10,15 @@
 
 ##### 切面生成思路：
 
-![target_click](C:\Users\VULCAN\Desktop\安顺丰丰\agroa\target_click.png)
+![target_processor](http://182.92.164.24:8080/young/target_processor.png)
 
 ##### 流程思路：
 
-![target_click_view](C:\Users\VULCAN\Desktop\安顺丰丰\agroa\target_click_view.png)
+![target_view](http://182.92.164.24:8080/young/target_view.png)
 
 ##### 模板类：
 
-![](C:\Users\VULCAN\Desktop\安顺丰丰\agroa\target_class.png)
+![target_class](http://182.92.164.24:8080/young/target_class.png)
 
 ##### 使用：
 
