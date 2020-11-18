@@ -36,7 +36,7 @@ open class AllTargetPoet : OriginalClickPoet {
 
     override fun addTargetFun(funSpec: FunSpec.Builder?) {
         funSpec?.addStatement("val currentMil=System.currentTimeMillis()")
-               ?.addStatement("     if(clickMil!=0L&&(currentMil-clickMil!!)>1500){" +
+               ?.addStatement("     if(clickMil!=0L&&(currentMil-clickMil!!)<1500){" +
                        "\n" +
                     "      clickMil=currentMil\n" +
                     "      return\n" +
