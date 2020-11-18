@@ -35,4 +35,5 @@ class MainActivity : AppCompatActivity(),TargetClickImplCallback {
 
     }
 }
+示例代码：https://github.com/softwarekk/TargetClickDemo
 ```
