@@ -21,7 +21,7 @@
 ![target_class](http://182.92.164.242:8080/young/target_class.png)
 
 ##### 使用：
-
+WARING:build on Android studio 4.0.1
 ```
 implementation 'com.github.softwarekk:targetclick:1.0.3.5'
 kapt 'com.github.softwarekk:targetclick:1.0.3.6'
