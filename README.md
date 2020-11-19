@@ -23,6 +23,9 @@
 ##### 使用：
 
 ```
+implementation 'com.github.softwarekk:targetclick:1.0.3.5'
+kapt 'com.github.softwarekk:targetclick:1.0.3.6'
+
 @TargetClick
 class MainActivity : AppCompatActivity(),TargetClickImplCallback {
     private val bindingClickImpl=MainActivityTargetClickImpl(this)
